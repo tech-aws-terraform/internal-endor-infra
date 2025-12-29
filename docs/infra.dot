@@ -1,0 +1,62 @@
+digraph INFRA {
+  node [ color = "black", fillcolor = "#E6E6E6", height =1, style = "filled,bold,rounded", fontname = "Arial" ];
+  "org_catalog_vpc" [ label = "org_catalog_vpc
+(AWS::EC2::VPC)", shape =rectangle ];
+  "org_catalog_public_subnets" [ label = "org_catalog_public_subnets
+(AWS::EC2::Subnet)", shape =rectangle ];
+  "org_catalog_neptune_subnets" [ label = "org_catalog_neptune_subnets
+(AWS::EC2::Subnet)", shape =rectangle ];
+  "org_catalog_internet_gateway" [ label = "org_catalog_internet_gateway
+(AWS::EC2::InternetGateway)", shape =rectangle, fillcolor = "#E78F81" ];
+  "org_catalog_public_route_table" [ label = "org_catalog_public_route_table
+(AWS::EC2::RouteTable)", shape =rectangle ];
+  "org_catalog_nat_gateway" [ label = "org_catalog_nat_gateway
+(AWS::EC2::NatGateway)", shape =rectangle, fillcolor = "#E78F81" ];
+  "org_catalog_private_route_table" [ label = "org_catalog_private_route_table
+(AWS::EC2::RouteTable)", shape =rectangle ];
+  "org_catalog_s3_gateway_endpoint" [ label = "org_catalog_s3_gateway_endpoint
+(AWS::EC2::VPCEndpoint)", shape =rectangle, fillcolor = "#E78F81" ];
+  "org_catalog_s3_bucket" [ label = "org_catalog_s3_bucket
+(AWS::S3::Bucket)", shape =cylinder, fillcolor = "#FFF5CD" ];
+  "neptune_cluster" [ label = "neptune_cluster
+(AWS::Neptune::DBCluster)", shape =cylinder, fillcolor = "#FFCFB3" ];
+  "neptune_instances" [ label = "neptune_instances
+(AWS::Neptune::DBInstance)", shape =cylinder, fillcolor = "#FFCFB3" ];
+  "neptune_subnet_group" [ label = "neptune_subnet_group
+(AWS::Neptune::DBSubnetGroup)", shape =rectangle ];
+  "neptune_cluster_parameter_group" [ label = "neptune_cluster_parameter_group
+(AWS::Neptune::DBClusterParameterGroup)", shape =rectangle ];
+  "neptune_parameter_group" [ label = "neptune_parameter_group
+(AWS::Neptune::DBParameterGroup)", shape =rectangle ];
+  "neptune_security_group" [ label = "neptune_security_group
+(AWS::EC2::SecurityGroup)", shape =rectangle ];
+  "neptune_sagemaker_notebook" [ label = "neptune_sagemaker_notebook
+(AWS::SageMaker::NotebookInstance)", shape =rectangle, fillcolor = "#B7E0FF" ];
+  "opensearch_collection" [ label = "opensearch_collection
+(AWS::OpenSearchServerless::Collection)", shape =cylinder, fillcolor = "#FFCFB3" ];
+  "opensearch_security_policy" [ label = "opensearch_security_policy
+(AWS::OpenSearchServerless::SecurityPolicy)", shape =rectangle ];
+  "opensearch_vpc_endpoint" [ label = "opensearch_vpc_endpoint
+(AWS::OpenSearchServerless::VpcEndpoint)", shape =rectangle, fillcolor = "#E78F81" ];
+  "org_catalog_public_subnets" -> "org_catalog_vpc";
+  "org_catalog_neptune_subnets" -> "org_catalog_vpc";
+  "org_catalog_internet_gateway" -> "org_catalog_vpc";
+  "org_catalog_public_route_table" -> "org_catalog_vpc";
+  "org_catalog_nat_gateway" -> "org_catalog_public_subnets";
+  "org_catalog_private_route_table" -> "org_catalog_vpc";
+  "org_catalog_s3_gateway_endpoint" -> "org_catalog_vpc";
+  "org_catalog_s3_gateway_endpoint" -> "org_catalog_private_route_table";
+  "neptune_cluster" -> "org_catalog_neptune_subnets";
+  "neptune_cluster" -> "neptune_subnet_group";
+  "neptune_cluster" -> "neptune_cluster_parameter_group";
+  "neptune_instances" -> "neptune_cluster";
+  "neptune_instances" -> "neptune_parameter_group";
+  "neptune_subnet_group" -> "org_catalog_neptune_subnets";
+  "neptune_security_group" -> "org_catalog_vpc";
+  "neptune_sagemaker_notebook" -> "neptune_cluster";
+  "neptune_sagemaker_notebook" -> "neptune_security_group";
+  "opensearch_security_policy" -> "opensearch_collection";
+  "opensearch_vpc_endpoint" -> "org_catalog_vpc";
+  "opensearch_vpc_endpoint" -> "org_catalog_neptune_subnets";
+  "opensearch_vpc_endpoint" -> "neptune_security_group";
+}

@@ -1,0 +1,67 @@
+{
+    "Comment": "A description of my state machine",
+    "StartAt": "GetParameter",
+    "States": {
+      "GetParameter": {
+        "Type": "Task",
+        "Arguments": {
+          "Name": "${param_name}"
+        },
+        "Resource": "arn:aws:states:::aws-sdk:ssm:getParameter",
+        "Next": "is_job_running",
+        "Assign": {
+          "is_job_running": "{% $states.result.Parameter.Value %}"
+        }
+      },
+      "is_job_running": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Next": "Wait",
+            "Condition": "{% ($states.input.Parameter.Value) = (\"True\") %}"
+          }
+        ],
+        "Default": "PutParameter"
+      },
+      "PutParameter": {
+        "Type": "Task",
+        "Arguments": {
+          "Name": "${param_name}",
+          "Value": "${param_val}",
+          "Overwrite": true
+        },
+        "Resource": "arn:aws:states:::aws-sdk:ssm:putParameter",
+        "Next": "Lambda Invoke"
+      },
+      "Wait": {
+        "Type": "Wait",
+        "Seconds": 30,
+        "Next": "GetParameter"
+      },
+      "Lambda Invoke": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::lambda:invoke",
+        "Output": "{% $states.result.Payload %}",
+        "Arguments": {
+          "FunctionName": "${invoke_lambda_arn}",
+          "Payload": "{% $states.context.Execution.Input %}"
+        },
+        "Retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException",
+              "Lambda.TooManyRequestsException"
+            ],
+            "IntervalSeconds": 1,
+            "MaxAttempts": 3,
+            "BackoffRate": 2,
+            "JitterStrategy": "FULL"
+          }
+        ],
+        "End": true
+      }
+    },
+    "QueryLanguage": "JSONata"
+  }

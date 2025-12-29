@@ -1,0 +1,15 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "dynamodb:*"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "${dynamodb_table_arn}",
+        "${dynamodb_table_arn}/*"
+      ]
+    }
+  ]
+}

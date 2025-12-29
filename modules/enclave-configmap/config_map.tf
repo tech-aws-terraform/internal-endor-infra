@@ -1,0 +1,55 @@
+module "config_map" {
+  source      = "../terraform-modules/common-modules/terraform-aws-configmap"
+
+  configmap_name        = "endor-config"
+  configmap_namespace   = "backend"
+  configmap_data        = {
+    endorPreStagingBucket       = var.endor_prestaging_bucket
+    endorStagingBucket          = var.endor_staging_bucket
+    endorIngestBucket           = var.endor_ingest_bucket
+    endorStudyScientificBucket  = var.endor_study_scientific_bucket
+    endorStudySupportiveBucket  = var.endor_study_supportive_bucket
+    dataIngestionQueue          = var.data_ingestion_queue
+    endorRegion                 = var.enclave_region
+    thumbnailBucket             = var.endor_prestaging_bucket
+    catalogBucket               = var.endor_catalog_bucket
+    opensearchEndpoint          = var.open_search_endpoint
+    neptuneClusterIdentifier    = var.neptune_cluster_identifier
+    neptuneWriteEndpoint        = var.neptune_write_endpoint
+    neptunePort                 = var.neptune_port
+    neptuneIamRoleArn           = var.neptune_iam_role_arn
+    neptuneAssumeRoleArn        = var.neptune_assume_role_arn
+    neptuneAssumeRoleName       = var.neptune_assume_role_name
+    elnTokenUrl                 = "${var.endor_rest_api_hostname}/endor/auth/auth-service/v2/api/login"
+    elnAttributeUrl             = "${var.endor_rest_api_hostname}/v1/eln/metadata/image/details"
+    elnExperimentIdURI          = "${var.endor_rest_api_hostname}/v1/eln/experimentGuid"
+    platformNavifyEndpoint      = var.platform_navify_endpoint
+    endorRestApiHostname        = var.endor_rest_api_hostname
+    dataDomainGetUrl            = "${var.endor_rest_api_hostname}/endor/admin/admin-service/api/rest/v2/dataDomain"
+    dataDomainPostUrl           = "${var.endor_rest_api_hostname}/endor/admin/admin-service/api/rest/v2/dataDomain"
+    endorTokenExpiryBackupMins  = "1440"
+    sentieonServiceName         = var.sentieon_service_name
+    oidcScope                   = var.oidcScope
+    platformRegion              = var.platform_region
+    platformSecretArn           = var.platform_secret_arn
+    platformAccountId           = var.platform_account_id
+    platformDomainApiName       = var.platform_domain_api_name
+    nftBucketId                 = var.nft_bucket_id
+    nftEc2EnclaveRoleArn        = var.nft_ec2_enclave_role_arn
+    nftDomainName               = var.nft_domain_name
+    nftBatchEnclaveRoleArn      = var.nft_batch_enclave_role_arn
+    useEndorDataDomain          = var.use_endor_data_domain
+    endorAssociateMetadataPostURI= "/endor/admin/admin-service/v1/api/group/metadataschema"
+    endorCreateGroupURI          = "/endor/admin/admin-service/v1/api/group"
+    endorMetadataPatchUrl       = "/endor/catalog-management/catalog-management/api/rest/v1/files/{fileId}/metadata"
+    endorcatalogtablesqslistener = var.endor_catalog_table_sqs_listener
+    endorEventBridgePipeName    = var.endor_event_bridge_pipe_name
+    endoraccountid              = var.endor_account_id
+    eventBridgePipeRoleARN      = var.event_bridge_pipe_role_arn
+    crossAccountArn             = var.cross_account_arn
+    dayOfFileDeleteFirstReminderEmail   = var.day_of_file_delete_first_reminder_email
+    dayOfFileDeleteSecondReminderEmail  = var.day_of_file_delete_second_reminder_email
+    preStagingBucketArn                 = "arn:aws:s3:::${var.endor_prestaging_bucket}"
+    endorBugetArn                       = var.endor_budget_role_arn
+  }
+}

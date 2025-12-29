@@ -1,0 +1,15 @@
+.idea
+*.terraform.lock.hcl
+*.terraform
+*.tfvars
+*.tfstate*
+*tfplan
+*.pluralith
+*plan.out
+*.terragrunt-cache
+terraform-logs-local
+*.DS_Store*
+
+live/endor-dev/*
+globals_*.hcl
+test/

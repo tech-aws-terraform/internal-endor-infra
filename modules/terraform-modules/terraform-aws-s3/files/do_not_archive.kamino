@@ -1,0 +1,9 @@
+KK   KK     AA      MMMM     MMMM   IIIIIIIIIIII   NNNN      NN    OOOOOOOOOO
+KK  KK     AA AA    MM MM   MM MM        II        NN NN     NN   OO        OO
+KK KK     AA   AA   MM  MM MM  MM        II        NN  NN    NN   OO        OO
+KKKK      AAAAAAA   MM   MM    MM        II        NN   NN   NN   OO        OO
+KK KK     AA   AA   MM         MM        II        NN    NN  NN   OO        OO
+KK  KK    AA   AA   MM         MM        II        NN     NN NN   OO        OO
+KK   KK   AA   AA   MM         MM   IIIIIIIIIIII   NN      NNNN    OOOOOOOOOO
+
+This is a technical file to ensure the bucket's lifecycle rule does not delete the folder as well.
